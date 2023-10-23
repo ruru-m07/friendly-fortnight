@@ -19,7 +19,7 @@ router.post(
 );
 router.get("/whoami", fetchuser, whoami);
 router.get("/getuserbyid/:id", fetchuser, getuserbyid);
-router.get("/alluser", fetchuser, alluser);
+router.get("/alluser", alluser);
 router.get("/getalluser/:id", fetchuser, getalluser);
 router.put("/:id/follow", fetchuser, followUser);
 router.put("/:id/unfollow", fetchuser, unfollowUser);

@@ -1,3 +1,63 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #09090b;
+}
+
+*::-webkit-scrollbar {
+  width: 7px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #27272a;
+}
+
+
+.calc {
+  height: calc(100vh - 56px);
+}
+
+
+
+.dashbord {
+  border-top-left-radius: 0px;
+  overflow-y: scroll;
+}
+
+@media (min-width: 768px) {
+  .dashbord {
+    border-top-left-radius: 5px;
+  }
+}
+
+[type='text']:focus,
+[type='email']:focus,
+[type='url']:focus,
+[type='password']:focus,
+[type='number']:focus,
+[type='date']:focus,
+[type='datetime-local']:focus,
+[type='month']:focus,
+[type='search']:focus,
+[type='tel']:focus,
+[type='time']:focus,
+[type='week']:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+  outline: 0px !important;
+  outline-offset: 0px !important;
+  box-shadow: none !important;
+}
