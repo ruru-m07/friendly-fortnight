@@ -23,6 +23,7 @@ const Signup = () => {
     let host = "http://localhost:3005";
     setProgress("cursor-progress");
     e.preventDefault();
+    
     const responce = await fetch(`${host}/api/auth/createuser`, {
       method: "POST",
       headers: {

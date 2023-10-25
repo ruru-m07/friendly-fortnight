@@ -1,42 +1,21 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
-  let navigate = useNavigate();
-  const [progress, setProgress] = useState("");
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
 
-  const onChange = (e: { target: { name: any; value: any; }; }) => {
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onChange = (e: { target: { name: any; value: any } }) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
-    let host = "http://localhost:3005";
-    setProgress("cursor-progress");
-    e.preventDefault();
-    const responce = await fetch(`${host}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: credentials.email,
-        password: credentials.password,
-      }),
-    });
 
-    const json = await responce.json();
-    // console.log(json);
-    if (json.success) {
-      // redirect
-      localStorage.setItem("token", json.authToken);
-      navigate("/");
-      window.location.reload();
-    } else {
-      setProgress("");
-      console.log("Invalid Credentials", "danger");
-    }
-  };
+  const { login } = useAuth();
+  const handleSubmit = async () => await login(credentials);
 
   return (
     <section className="bg-gray-50 dark:bg-zinc-950">
@@ -88,7 +67,7 @@ const Login = () => {
               </div>
               <button
                 type="submit"
-                className={`${progress} w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-black dark:bg-white dark:hover:bg-zinc-300 dark:focus:ring-zinc-800`}
+                className={`w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-black dark:bg-white dark:hover:bg-zinc-300 dark:focus:ring-zinc-800`}
               >
                 Login
               </button>

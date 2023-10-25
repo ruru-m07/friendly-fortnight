@@ -1,47 +1,47 @@
-import api from "./api/index";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Navbar from "./pages/Navbar";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+// import userContext from "./context/user/userContext";
+import { UserInterface } from "./interfaces/user";
+import { useAuth } from "./context/AuthContext";
+import { whoami } from "./api";
+import { requestHandler } from "./utils";
 
 function App() {
-  const [user, setUser] = useState([]);
+  // const [user, setUser] = useState<UserInterface | null>(null);
 
-  const users = async () => {
-    const response = await api.get("/user/alluser");
-    return response.data;
-  };
+  const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const getalluser = async () => {
-      const alluser = await users();
-      if (alluser) setUser(alluser.data);
-    };
-    getalluser();
-  }, []);
+  const { user } = useAuth();
 
-  console.log(user);
-
-  const token = true;
+  console.log(user)
+ 
+  
 
   return (
     <>
+      {localStorage.getItem("token") ? <Navbar /> : null}
+
       <Routes>
         <Route
-          path="/login"
+          path="/"
           element={
-              <Login />
+            token && user?._id ? <Navigate to="/login" /> : <Navigate to="/" />
           }
-        />
-      </Routes>
-      <Routes>
-        <Route
-          path="/signup"
-          element={
-              <Signup />
-          }
-        />
+        ></Route>
+        <Route>
+          <Route path="/login" element={<Login />} />
+        </Route>
+        <Route>
+          <Route path="/signup" element={<Signup />} />
+        </Route>
       </Routes>
     </>
   );
