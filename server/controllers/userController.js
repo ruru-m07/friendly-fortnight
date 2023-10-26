@@ -88,11 +88,14 @@ module.exports = {
     }
   },
   whoami: async (req, res) => {
+    let success = false;
+
     try {
       let userId = req.user.id;
-      const user = await User.findById(userId).select("-password");
+      const data = await User.findById(userId).select("-password");
       // console.log(user);
-      res.send(user);
+      success = true;
+      res.json({success, data});
     } catch (error) {
       console.log(error.message);
       res.status(500).send("Internal Server Error Occured");

@@ -1,48 +1,50 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./pages/Navbar";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 // import userContext from "./context/user/userContext";
 import { UserInterface } from "./interfaces/user";
-import { useAuth } from "./context/AuthContext";
 import { whoami } from "./api";
 import { requestHandler } from "./utils";
+import Loader from "./components/Loader";
 
 function App() {
-  // const [user, setUser] = useState<UserInterface | null>(null);
+  const [user, setUser] = useState<UserInterface | null>(null);
+  const [loadingChats, setLoadingChats] = useState(false); // To indicate loading of chats
 
   const token = localStorage.getItem("token");
 
-  const { user } = useAuth();
+  const getuser = async () => {
+    requestHandler(
+      async () => await whoami(),
+      setLoadingChats,
+      (res) => {
+        const { data } = res;
+        setUser(data || []);
+        // console.log(data);
+      },
+      alert
+    );
+  };
 
-  console.log(user)
- 
-  
+ useEffect(() => {
+   if (token) {
+     getuser();
+   }
+ }, []);
+
+  // console.log(user);
 
   return (
     <>
-      {localStorage.getItem("token") ? <Navbar /> : null}
-
-      <Routes>
-        <Route
-          path="/"
-          element={
-            token && user?._id ? <Navigate to="/login" /> : <Navigate to="/" />
-          }
-        ></Route>
-        <Route>
+      {loadingChats ? (
+        <Loader />
+      ) : (
+        <Routes>
+          <Route path="/" element={<Navbar user={user} />} />
           <Route path="/login" element={<Login />} />
-        </Route>
-        <Route>
-          <Route path="/signup" element={<Signup />} />
-        </Route>
-      </Routes>
+        </Routes>
+      )}
     </>
   );
 }

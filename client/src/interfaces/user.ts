@@ -9,4 +9,5 @@ export interface UserInterface {
   date: string;
   createdAt: string;
   updatedAt: string;
+   user?: UserInterface | null;
 }

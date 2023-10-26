@@ -1,10 +1,5 @@
-import { useContext } from "react";
-import userContext from "../context/user/userContext";
-
-const Dashbord = () => {
-  const context = useContext(userContext);
-  const { user } = context;
-
+const Dashbord = (props: { user: any; }) => {
+  const user = props.user;
   return (
     <div>
       <div className=" flex  text-white text-6xl">

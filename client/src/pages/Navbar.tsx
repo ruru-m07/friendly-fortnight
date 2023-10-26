@@ -1,15 +1,13 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import logo from "../assets/logo.png";
 import Dashbord from "./Dashbord";
-import userContext from "../context/user/userContext";
 import { Link, useLocation } from "react-router-dom";
 import userimg from '../assets/user.png'
 
-const Navbar = () => {
+const Navbar = (props: any) => {
   // ** use location
 
   let location = useLocation();
-  console.log(location);
 
   // ** sidebar show % hide btn
   const sidebar = () => {
@@ -17,9 +15,8 @@ const Navbar = () => {
   };
   const [style, setStyle] = useState("w-0");
 
-  // ** user data from usercontext
-  const { user } = useContext(userContext);
-  console.log(user);
+  const user = props?.user;
+  // console.log(user)
 
   // ** nav items array
 
@@ -199,7 +196,7 @@ const Navbar = () => {
           <div className="calc">
             <div className=" dashbord h-full bg-zinc-800 flex justify-center items-center">
               <div>
-                <Dashbord />
+                <Dashbord user={user} />
               </div>
             </div>
           </div>

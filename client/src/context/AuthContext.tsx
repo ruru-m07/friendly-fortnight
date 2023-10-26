@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, whoami } from "../api";
+import { loginUser } from "../api";
 import Loader from "../components/Loader";
 import { UserInterface } from "../interfaces/user";
 import { LocalStorage, requestHandler } from "../utils";
@@ -37,7 +37,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       (res) => {
         const token = res.authToken;
         localStorage.setItem("token", token);
-        console.log(res.authToken);
+        // console.log(res.authToken);
         navigate("/"); // Redirect to the chat page after successful login
         
       },
