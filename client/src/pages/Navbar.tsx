@@ -221,8 +221,8 @@ const Navbar = () => {
           </div>
 
           <div className="calc">
-            <div className=" text-white dashbord h-full bg-zinc-800 flex justify-center items-center">
-              <div>{component}</div>
+            <div className=" text-white dashbord h-full w-full bg-zinc-800 flex justify-center items-center">
+                {component}
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
 var fetchuser = require("../middleware/fetchuser");
-const { createuser, login, whoami, getuserbyid, alluser, getalluser, followUser, unfollowUser } = require("../controllers/userController");
+const { createuser, login, whoami, getuserbyid, alluser, getalluser, followUser, unfollowUser, updateuser, updateUser } = require("../controllers/userController");
 
 router.post(
   "/createuser",
@@ -23,6 +23,7 @@ router.get("/alluser", alluser);
 router.get("/getalluser/:id", fetchuser, getalluser);
 router.put("/:id/follow", fetchuser, followUser);
 router.put("/:id/unfollow", fetchuser, unfollowUser);
+router.put("/updateuser", fetchuser, updateUser);
 
 
 module.exports = router;

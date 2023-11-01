@@ -32,12 +32,15 @@
 
 .dashbord {
   border-top-left-radius: 0px;
+  --tw-bg-opacity: 1;
+  border-top: solid 2px rgb(55 65 81 / var(--tw-bg-opacity));
+  border-left: solid 1px rgb(55 65 81 / var(--tw-bg-opacity));
   overflow-y: scroll;
 }
 
 @media (min-width: 768px) {
   .dashbord {
-    border-top-left-radius: 5px;
+    border-top-left-radius: 10px;
   }
 }
 

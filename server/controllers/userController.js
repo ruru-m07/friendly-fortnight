@@ -95,7 +95,7 @@ module.exports = {
       const data = await User.findById(userId).select("-password");
       // console.log(user);
       success = true;
-      res.json({success, data});
+      res.json({ success, data });
     } catch (error) {
       console.log(error.message);
       res.status(500).send("Internal Server Error Occured");
@@ -178,6 +178,48 @@ module.exports = {
       } catch (error) {
         res.status(500).json(error);
       }
+    }
+  },
+  // Update user
+  updateUser: async (req, res) => {
+    // Get the user ID from the request.
+    const userId = req.user.id;
+
+    // If the user ID is provided, try to find the user object in MongoDB.
+    if (userId) {
+      try {
+        const user = await User.findById(userId).select("-password");
+        // If the user object is found, update it with the new information provided in the request body.
+        if (user) {
+          if (req.body.name) {
+            user.name = req.body.name;
+          }
+          if (req.body.lname) {
+            user.lname = req.body.lname;
+          }
+          if (req.body.email) {
+            user.email = req.body.email;
+          }
+          if (req.body.image) {
+            user.image = req.body.image;
+          }
+
+          // Save the updated user object to MongoDB.
+          await user.save();
+
+          // Send a response to the client with the updated user object.
+          res.status(200).json({ message: "User updated successfully", user });
+        } else {
+          // If the user object is not found, return a 404 Not Found error.
+          res.status(404).json({ message: "User not found" });
+        }
+      } catch (error) {
+        // If an error occurs, return a 500 Internal Server Error.
+        res.status(500).json({ message: "Internal server error" });
+      }
+    } else {
+      // If the user ID is not provided, return a 400 Bad Request error.
+      res.status(400).json({ message: "User ID is required" });
     }
   },
 };

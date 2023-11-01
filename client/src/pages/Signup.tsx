@@ -79,10 +79,10 @@ const Signup = () => {
   // };
 
   return (
-    <section className="bg-gray-50 dark:bg-zinc-950 flex py-20">
-      <div className=" flex flex-col  items-center justify-center px-6 mx-auto lg:py-0  ">
-        <div className=" bg-white py-5 mt-96 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-zinc-900 dark:border-zinc-700 ">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8 mt-1 shadow-2xl shadow-zinc-900">
+    <section className="bg-gray-50 text-xs dark:bg-zinc-950">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-zinc-900 dark:border-zinc-700">
+          <div className="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-2xl shadow-zinc-900 ">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create an account
             </h1>
@@ -92,7 +92,7 @@ const Signup = () => {
                 <div className="mr-5">
                   <label
                     htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-xs font-medium text-gray-900 dark:text-white"
                   >
                     Your First Name
                   </label>
@@ -113,7 +113,7 @@ const Signup = () => {
                 <div>
                   <label
                     htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-xs font-medium text-gray-900 dark:text-white"
                   >
                     Your Last Name
                   </label>
@@ -134,7 +134,7 @@ const Signup = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-xs font-medium text-gray-900 dark:text-white"
                 >
                   Your email
                 </label>
@@ -155,7 +155,7 @@ const Signup = () => {
                 <div className="mr-5">
                   <label
                     htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-xs font-medium text-gray-900 dark:text-white"
                   >
                     Password
                   </label>
@@ -174,7 +174,7 @@ const Signup = () => {
                 <div>
                   <label
                     htmlFor="cpassword"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-xs font-medium text-gray-900 dark:text-white"
                   >
                     Confirm password
                   </label>
