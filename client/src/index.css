@@ -60,17 +60,11 @@ select:focus {
   outline-offset: 0px !important;
   box-shadow: none !important;
 }
-.lodercen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
 
 .loader {
   display: block;
   --height-of-loader: 4px;
-  --loader-color: rgb(0, 163, 19);
+  --loader-color: rgb(255, 255, 255);
   width: 130px;
   height: var(--height-of-loader);
   border-radius: 30px;
@@ -88,7 +82,6 @@ select:focus {
   height: 100%;
   border-radius: 30px;
   animation: moving 1s ease-in-out infinite;
-  ;
 }
 
 @keyframes moving {

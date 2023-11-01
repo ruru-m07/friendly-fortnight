@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react"; 
+import { useAuth } from "../context/AuthContext";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
-  let [image, setImage] = useState("");
-  let [imagecon, setImagecon] = useState("flex");
-  const [progress, setProgress] = useState("");
+  // let [image, setImage] = useState("");
+  // let [imagecon, setImagecon] = useState("flex");
 
-  let navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     name: "",
     lname: "",
@@ -19,54 +19,64 @@ const Signup = () => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    let host = "http://localhost:3005";
-    setProgress("cursor-progress");
+  const { signup } = useAuth();
+
+  //   const handleSubmit = async (e: { preventDefault: () => void }) => {
+  //     let host = "http://localhost:3005";
+  //     setProgress("cursor-progress");
+  //     e.preventDefault();
+
+  //     if (credentials.password === credentials.cpassword) {
+  //       const responce = await fetch(`${host}/user/createuser`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         name: credentials.name,
+  //         lname: credentials.lname,
+  //         email: credentials.email,
+  //         // image: image,
+  //         password: credentials.password,
+  //       }),
+  //     });
+  //     const json = await responce.json();
+  //     // console.log(json);
+  //     if (json.success) {
+  //       // redirect
+  //       localStorage.setItem("token", json.authToken);
+  //       navigate("/");
+  //       window.location.reload();
+  //     } else {
+  //       console.log("Invalid Credentials", "danger");
+  //     }
+  //   } else {
+  //     console.log("password dosen't match")
+  //   }
+  // };
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    toast.loading("login...");
     e.preventDefault();
-    
-    const responce = await fetch(`${host}/api/auth/createuser`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: credentials.name,
-        lname: credentials.lname,
-        email: credentials.email,
-        image: image,
-        password: credentials.password,
-      }),
-    });
-
-    const json = await responce.json();
-    // console.log(json);
-    if (json.success) {
-      // redirect
-      localStorage.setItem("token", json.authToken);
-      navigate("/");
-      window.location.reload();
-    } else {
-      console.log("Invalid Credentials", "danger");
-    }
+    await signup(credentials);
   };
 
-  function convertToBase64(e: React.ChangeEvent<HTMLInputElement>) {
-    const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      console.log(reader.result);
-      setImage(reader.result as string);
-      setImagecon("hidden");
-    };
-    reader.onerror = (error) => {
-      console.log("error: ", error);
-    };
-  }
+  // function convertToBase64(e: React.ChangeEvent<HTMLInputElement>) {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(e.target.files[0]);
+  //   reader.onload = () => {
+  //     console.log(reader.result);
+  //     setImage(reader.result as string);
+  //     setImagecon("hidden");
+  //   };
+  //   reader.onerror = (error) => {
+  //     console.log("error: ", error);
+  //   };
+  // }
 
-  const rmimage = () => {
-    setImage("");
-    setImagecon("flex");
-  };
+  // const rmimage = () => {
+  //   setImage("");
+  //   setImagecon("flex");
+  // };
 
   return (
     <section className="bg-gray-50 dark:bg-zinc-950 flex py-20">
@@ -182,7 +192,7 @@ const Signup = () => {
                 </div>
               </div>
 
-              <div
+              {/* <div
                 className={` ${imagecon} items-center justify-center w-full`}
               >
                 <label
@@ -240,11 +250,11 @@ const Signup = () => {
                     </button>
                   </div>
                 </div>
-              )}
+              )} */}
 
               <button
                 type="submit"
-                className={`${progress} w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-black dark:bg-white dark:hover:bg-zinc-300 dark:focus:ring-zinc-800`}
+                className={`w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-black dark:bg-white dark:hover:bg-zinc-300 dark:focus:ring-zinc-800`}
               >
                 Create an account
               </button>

@@ -2,6 +2,8 @@
 import { AxiosResponse } from "axios";
 import { FreeAPISuccessResponseInterface } from "../interfaces/api";
 
+
+
 // A utility function for handling API requests with loading, success, and error handling
 export const requestHandler = async (
   api: () => Promise<AxiosResponse<FreeAPISuccessResponseInterface, any>>,
@@ -20,11 +22,13 @@ export const requestHandler = async (
       // Call the onSuccess callback with the response data
       onSuccess(data);
     }
+
   } catch (error: any) {
     // Handle error cases, including unauthorized and forbidden cases
     if ([401, 403].includes(error?.response.data?.statusCode)) {
       localStorage.clear(); // Clear local storage on authentication issues
       if (isBrowser) window.location.href = "/login"; // Redirect to login page
+
     }
     console.log(error)
     onError(error?.response?.data?.message || "Something went wrong");

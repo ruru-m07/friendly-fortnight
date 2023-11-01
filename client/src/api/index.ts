@@ -27,6 +27,13 @@ const loginUser = (data: { email: string; password: string, }) => {
   });
 };
 
+// API functions for different actions
+const signupUser = (data: { email: string; password: string, }) => {
+  return apiClient.post("/user/createuser", data, {
+    withCredentials: false,
+  });
+};
+
 const whoami = () => {
 return apiClient.get("/user/whoami", {
     withCredentials: false,
@@ -36,5 +43,6 @@ return apiClient.get("/user/whoami", {
 
 export {
   whoami,
-  loginUser
+  loginUser,
+  signupUser
 };

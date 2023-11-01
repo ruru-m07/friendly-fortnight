@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "sonner";
 
 const Login = () => {
-
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -13,9 +13,16 @@ const Login = () => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-
   const { login } = useAuth();
-  const handleSubmit = async () => await login(credentials);
+
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    toast.loading("login...")
+    e.preventDefault();
+    await login(credentials);
+    toast.dismiss()
+  };
+
+
 
   return (
     <section className="bg-gray-50 dark:bg-zinc-950">

@@ -1,19 +1,25 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginUser } from "../api";
+import { loginUser, signupUser, whoami } from "../api";
 import Loader from "../components/Loader";
 import { UserInterface } from "../interfaces/user";
-import { LocalStorage, requestHandler } from "../utils";
+import { requestHandler } from "../utils";
+import { Toaster, toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 // Create a context to manage authentication-related data and functions
 const AuthContext = createContext<{
   user: UserInterface | null;
-  token: string | null;
   login: (data: { email: string; password: string }) => Promise<void>;
+  signup: (data: {
+    email: string;
+    password: string;
+    name: string;
+    lname: string;
+  }) => Promise<void>;
 }>({
   user: null,
-  token: null,
   login: async () => {},
+  signup: async () => {},
 });
 
 // Create a hook to access the AuthContext
@@ -25,67 +31,78 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<UserInterface | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const token = localStorage.getItem("token");
+  let navigate = useNavigate();
 
-  const navigate = useNavigate();
-
- const login = async (data: { email: string; password: string }) => {
-  try {
-    await requestHandler(
-      async () => await loginUser(data),
-      setIsLoading,
-      (res) => {
-        const token = res.authToken;
-        localStorage.setItem("token", token);
-        // console.log(res.authToken);
-        navigate("/"); // Redirect to the chat page after successful login
-        
-      },
-      alert // Display error alerts on request failure
-    );
-  } catch (error) {
-    // Handle the error here
-    console.log(error);
-  }
-};
-
-
-// const whoami = async (data: { token: string }) => {
-//   try {
-//     await requestHandler(
-//       async () => await whoami(data),
-//       setIsLoading,
-//       (res) => {
-//         const token = res.authToken;
-//         localStorage.setItem("token", token);
-//         console.log(res.authToken);
-//         navigate("/"); // Redirect to the chat page after successful login
-//       },
-//       alert // Display error alerts on request failure
-//     );
-//   } catch (error) {
-//     // Handle the error here
-//     console.log(error);
-//   }
-// };
-
- 
-  // Check for saved user and token in local storage during component initialization
-  useEffect(() => {
-    setIsLoading(true);
-    const _token = LocalStorage.get("token");
-    const _user = LocalStorage.get("user");
-    if (_token && _user?._id) {
-      setUser(_user);
-      setToken(_token);
+  const login = async (data: { email: string; password: string }) => {
+    try {
+      await requestHandler(
+        async () => await loginUser(data),
+        setIsLoading,
+        (res) => {
+          const token = res.authToken;
+          toast.success("login successfully ✅");
+          localStorage.setItem("token", token);
+          navigate("/");
+        },
+        alert
+      );
+    } catch (error) {
+      // Handle the error here
+      console.log(error);
     }
-    setIsLoading(false);
-  }, []);
+  };
+
+  const signup = async (data: {
+    email: string;
+    password: string;
+    name: string;
+    lname: string;
+  }) => {
+    try {
+      await requestHandler(
+        async () => await signupUser(data),
+        setIsLoading,
+        (res) => {
+          const token = res.authToken;
+          toast.success("signup successfully ✅");
+          localStorage.setItem("token", token);
+          navigate("/");
+        },
+        alert
+      );
+    } catch (error) {
+      // Handle the error here
+      console.log(error);
+    }
+  };
+
+  // ** get user
+  useEffect(() => {
+    const getuser = async () => {
+      requestHandler(
+        async () => await whoami(),
+        setIsLoading,
+        (res) => {
+          const { data } = res;
+          setUser(data || []);
+          toast.success(`Welcome, ${data?.name}! 🌟`);
+          toast.dismiss();
+        },
+        alert
+      );
+    };
+
+    if (token) {
+      getuser();
+    }
+  }, [token]);
 
   // Provide authentication-related data and functions through the context
   return (
-    <AuthContext.Provider value={{ user, login, token }}>
-      {isLoading ? <Loader /> : children} {/* Display a loader while loading */}
+    <AuthContext.Provider value={{ user, login, signup }}>
+      <Toaster theme="dark" position="top-right" expand={true} />
+      {isLoading ? <Loader /> : children}
     </AuthContext.Provider>
   );
 };

@@ -1,5 +1,7 @@
-const Dashbord = (props: { user: any; }) => {
-  const user = props.user;
+import { useAuth } from "../context/AuthContext";
+
+const Dashbord = () => {
+  const {user} = useAuth()
   return (
     <div>
       <div className=" flex  text-white text-6xl">
