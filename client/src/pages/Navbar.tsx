@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import userimg from "../assets/user.png";
 import { useAuth } from "../context/AuthContext";
 import Settings from "./settings/Settings";
+import Project from "./Project";
 
 const Navbar = () => {
   // ** use location
@@ -30,7 +31,7 @@ const Navbar = () => {
       id: "2",
       icon: "folder",
       text: "Projects",
-      path: "/Projects",
+      path: "/projects",
     },
     {
       id: "3",
@@ -117,6 +118,10 @@ const Navbar = () => {
     }
     if (location.pathname === "/settings") {
       const settingsElement = React.createElement(Settings);
+      return settingsElement;
+    }
+    if (location.pathname === "/projects") {
+      const settingsElement = React.createElement(Project);
       return settingsElement;
     }
 

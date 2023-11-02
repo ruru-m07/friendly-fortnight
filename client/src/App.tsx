@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
+import Project from "./pages/Project";
 
 // ...
 
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navbar />} />
         <Route path="/settings" element={<Navbar />} />
+        <Route path="/projects" element={<Navbar />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
